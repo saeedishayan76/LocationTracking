@@ -10,7 +10,6 @@
 
 
     <application
-        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -19,6 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.OkRetrofitCatch"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
             android:name=".MainActivity"
@@ -30,7 +30,9 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".service.LocationService" />
+        <service
+            android:name=".service.LocationService"
+            android:foregroundServiceType="location" />
     </application>
 
 </manifest>
