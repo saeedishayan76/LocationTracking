@@ -1,4 +1,4 @@
-package com.shayan.location
+package com.shayan.location.service
 
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
@@ -9,7 +9,6 @@ import android.location.Location
 import android.os.Build
 import android.os.IBinder
 import android.os.Looper
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
@@ -17,10 +16,10 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
+import com.shayan.location.even.LocationEvent
+import com.shayan.location.R
 import org.greenrobot.eventbus.EventBus
 
-
-private const val TAG = "LocationService"
 class LocationService : Service() {
 
 
@@ -31,14 +30,13 @@ class LocationService : Service() {
 
 
     private var fusedLocationProviderClient: FusedLocationProviderClient?= null
-    private var locationRequest: LocationRequest ?= null
-    private var locationCallBack: LocationCallback ?= null
-    private var notificationManager: NotificationManager ?= null
+    private var locationRequest: LocationRequest?= null
+    private var locationCallBack: LocationCallback?= null
+    private var notificationManager: NotificationManager?= null
 
 
     override fun onCreate() {
         super.onCreate()
-        Log.i(TAG, "onCreate: ")
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
         locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 1000L).build()
@@ -46,14 +44,22 @@ class LocationService : Service() {
         locationCallBack = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 super.onLocationResult(locationResult)
-                Log.i(TAG, "onLocationResult: in")
                 showLocationInNotification(locationResult.lastLocation)
-                EventBus.getDefault().post(LocationEvent(locationResult.lastLocation?.latitude, locationResult.lastLocation?.longitude))
+                EventBus.getDefault().post(
+                    LocationEvent(
+                        locationResult.lastLocation?.latitude,
+                        locationResult.lastLocation?.longitude
+                    )
+                )
             }
         }
         notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT)
+            val channel = NotificationChannel(
+                CHANNEL_ID,
+                CHANNEL_NAME,
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
             notificationManager?.createNotificationChannel(channel)
         }
     }
@@ -78,7 +84,9 @@ class LocationService : Service() {
     @SuppressLint("MissingPermission")
     private fun requestLocation() {
         try {
-            fusedLocationProviderClient?.requestLocationUpdates(locationRequest!!, locationCallBack!!, Looper.getMainLooper())
+            fusedLocationProviderClient?.requestLocationUpdates(locationRequest!!, locationCallBack!!,
+                Looper.getMainLooper()
+            )
         }catch (e: Exception) {
             e.printStackTrace()
         }
