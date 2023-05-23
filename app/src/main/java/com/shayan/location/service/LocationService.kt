@@ -16,7 +16,7 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
-import com.shayan.location.even.LocationEvent
+import com.shayan.location.event.LocationEvent
 import com.shayan.location.R
 import org.greenrobot.eventbus.EventBus
 

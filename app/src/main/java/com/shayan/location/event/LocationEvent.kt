@@ -1,3 +1,3 @@
-package com.shayan.location.even
+package com.shayan.location.event
 
 data class LocationEvent(var latitude: Double?, var longitiude: Double?)

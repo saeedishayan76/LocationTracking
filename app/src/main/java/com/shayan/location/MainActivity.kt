@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.shayan.location.databinding.ActivityMainBinding
-import com.shayan.location.even.LocationEvent
+import com.shayan.location.event.LocationEvent
 import com.shayan.location.service.LocationService
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
